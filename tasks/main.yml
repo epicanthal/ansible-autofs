@@ -1,0 +1,22 @@
+---
+# Be sure to use '-K' (--ask-become-pass) option when running playbook, e.g.:
+#   ansible-playbook playbook.yml -K
+#
+# This role is based on the post:
+#   http://blog.grapii.com/2015/06/keep-network-drives-mounted-on-mac-os-x-using-autofs/
+#
+# Expand as needed to support multiple file systems, e.g. nfs, etc.
+
+  - name: include auto_master.yml
+    include: auto_master.yml
+
+  - name: include auto_smb.yml
+    include: auto_smb.yml
+
+  - name: bring up mounts
+    shell: automount -vc
+    become: true
+    register: automount_output
+
+  - name: dump output from automount
+    debug: var=automount_output

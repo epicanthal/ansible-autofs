@@ -1,0 +1,25 @@
+---
+# role 'autofs' variables
+# This file should ultimately be "ansible-vaulted" or place the variables
+# in a vault file.
+#
+# references: https://help.ubuntu.com/community/Autofs
+#             http://blog.grapii.com/2015/06/keep-network-drives-mounted-on-mac-os-x-using-autofs
+#
+# user_name(s) and password(s) that will be referenced in auto_smb.j2 template
+# uncomment lines and replace with your actual user_name(s) and password(s)
+  # win_user_id1: 'john'
+  # win_password1: 'green'
+  # win_user_id2: 'john'
+  # win_password2: 'blue'
+
+# add key, location, user_id and password values that will be referenced in
+# auto_smb.j2 template
+# uncomment lines and replace with your actual info
+  # autofs_smb:
+  #   - { key: 'my_share1', location: 'win_server1/share1', user_id: "{{ win_user_id1 }}", password: "{{ win_password1 }}" }
+  #   - { key: 'my_share2', location: 'win_server2/share2' user_id: "{{ win_user_id2 }}", password: "{{ win_password2 }}" }
+  #   - etc...
+
+# extend with other sections as needed...
+  # autofs_nfs, etc...

@@ -1,0 +1,21 @@
+---
+# Be sure to use '-K' (--ask-become-pass) option when running playbook, e.g.:
+#   ansible-playbook playbook.yml -K
+
+  - name: Create /mnt/smb directory if it doesn't exist
+    file:
+      path: /mnt/smb
+      state: directory
+      owner: "{{ ansible_user_id }}"
+      #mode: 0755
+    become: true
+
+  # Need to double-quote the line so that '\t' is expanded.  Using single-quotes
+  # doesn't expand '\t'.
+  - name: add a 'auto_smb' line to 'auto_master'
+    lineinfile:
+      dest: /etc/auto_master
+      state: present
+      regexp: '^/mnt/smb\s+auto_smb'
+      line: "/mnt/smb\t\tauto_smb"
+    become: true

@@ -1,0 +1,28 @@
+---
+# Be sure to use '-K' (--ask-become-pass) option when running playbook, e.g.:
+#   ansible-playbook playbook.yml -K
+
+  - name: check current status of /etc/auto_smb
+    stat:
+      path: /etc/auto_smb
+    register: auto_smb_stat
+
+  - name: create /etc/auto_smb if it does not exist
+    file:
+      path: /etc/auto_smb
+      #owner: "{{ ansible_user_id }}"
+      state: touch
+      mode: 0600
+    when: auto_smb_stat.stat.exists == false
+    become: true
+
+  - name: template /etc/auto_smb
+    template:
+      src: auto_smb.j2
+      dest: /etc/auto_smb
+    register: template_output
+    become: true
+
+  - name: dump template output if /etc/auto_smb changed
+    debug: var=template_output
+    when: template_output.changed == true
